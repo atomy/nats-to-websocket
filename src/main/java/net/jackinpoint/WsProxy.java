@@ -38,6 +38,7 @@ public class WsProxy {
      */
     private void startNatsClient() {
         try {
+            // %TODO, make this env var
             natsConnection = Nats.connect("nats://10.8.0.3:4222");
             Dispatcher d = natsConnection.createDispatcher((msg) -> {
                 String response = new String(msg.getData(), StandardCharsets.UTF_8);

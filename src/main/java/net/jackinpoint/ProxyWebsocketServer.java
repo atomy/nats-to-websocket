@@ -24,12 +24,24 @@ public class ProxyWebsocketServer extends WebSocketServer {
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         LOGGER.info(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " connected!");
 
+        // invalid auth, drop connection
+        // %TODO, make pass a variable
+        if (!handshake.getFieldValue("X-AUTH").equals("super-password")) {
+            conn.close(1000, "Unauthorized!");
+        }
+
         sendBacklog(conn);
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        LOGGER.info(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " disconnected!");
+        InetSocketAddress remoteSocketAddress = conn.getRemoteSocketAddress();
+
+        if (remoteSocketAddress != null) {
+            LOGGER.info(String.format("[%s] Client disconnected. Code: %d - Reason: %s - Closed-by-remote: %s", remoteSocketAddress.getAddress().getHostAddress(), code, reason, remote ? "yes" : "no"));
+        } else {
+            LOGGER.info(String.format("Client disconnected. Code: '%d' - Reason: '%s' - Closed-by-remote: '%s'", code, reason, remote ? "yes" : "no"));
+        }
     }
 
     @Override

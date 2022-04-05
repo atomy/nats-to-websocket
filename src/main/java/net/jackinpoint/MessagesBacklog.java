@@ -6,6 +6,7 @@ import java.util.LinkedList;
  * Class MessagesBacklog.
  */
 public class MessagesBacklog {
+    // %TODO, make this env variable
     private static final int BACKLOG_LIST = 500;
 
     /**

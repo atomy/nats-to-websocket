@@ -13,7 +13,7 @@ public class Main {
      */
     public static void main(String[] args) {
         BasicConfigurator.configure();
-
+// %TODO, add docker, setup and deploy scripts
         WsProxy wsProxy = new WsProxy();
         wsProxy.start();
 
